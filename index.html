@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aquatic Data - Tableau de bord</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #E6F7FF;
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+    header {
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    header img {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px 20px;
+    }
+    .card {
+      background-color: #FFFFFF;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      color: #1A7B9C;
+    }
+    .card p {
+      margin: 0 0 15px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #1A7B9C;
+      color: #FFFFFF;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .btn:hover {
+      background-color: #14627C;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Aquatic_Data_Logo.png" alt="Logo Aquatic Data" />
+  </header>
+  <main class="cards-container">
+    <section class="card">
+      <h2>Aqualigne</h2>
+      <p>Permet de suivre l'évolution des concentrations des molécules présentes dans l'eau le long des linéaires des cours d'eau.</p>
+      <a class="btn" href="https://aquaticdata.shinyapps.io/Aqualigne/" target="_blank" rel="noopener">Ouvrir l'application</a>
+    </section>
+    <section class="card">
+      <h2>Quali_Eau_tot</h2>
+      <p>Permet d'appréhender la qualité de l'eau selon les indicateurs AEP ou DCE, et d'analyser les dynamiques moléculaires sur différentes stations.</p>
+      <a class="btn" href="https://aquaticdata.shinyapps.io/Quali_Eau_tot/" target="_blank" rel="noopener">Ouvrir l'application</a>
+    </section>
+    <section class="card">
+      <h2>Quali_Eausout_guyane</h2>
+      <p>Identique à Quali_Eau_tot, mais centré sur les eaux souterraines en Guyane.</p>
+      <a class="btn" href="https://aquaticdata.shinyapps.io/Quali_Eausout_guyane/" target="_blank" rel="noopener">Ouvrir l'application</a>
+    </section>
+    <section class="card">
+      <h2>Deploy_FPM</h2>
+      <p>En lien avec la Fédération de Pêche, cette application suit les déplacements et les aires de reproduction des thons rouges en Méditerranée.</p>
+      <a class="btn" href="https://aquaticdata.shinyapps.io/deploy_FPM/" target="_blank" rel="noopener">Ouvrir l'application</a>
+    </section>
+    <section class="card">
+      <h2>QualiCosh</h2>
+      <p>Version de Quali_Eau_tot dédiée aux périmètres de captage d'eau potable.</p>
+      <a class="btn" href="https://aquaticdata.shinyapps.io/QualiCosh/" target="_blank" rel="noopener">Ouvrir l'application</a>
+    </section>
+  </main>
+</body>
+</html>
