@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaticData - Qualité des Cours d'Eau</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+
+  background:
+    linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%),
+    url('https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/miroir.jpg') center/cover fixed;
+
+  min-height: 100vh;
+}
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            animation: fadeIn 1s ease-in;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .tagline {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-top: 15px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .nav-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .content-section h3 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .content-section p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
+
+        .feature-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .image-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.02);
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        .image-caption {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .referentials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .referential-tag {
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-top: 50px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .content-section {
+                padding: 30px 20px;
+            }
+            
+            .nav-btn {
+                padding: 15px 25px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <header class="site-header">
+  <div class="header-content">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/logo.png"
+         alt="Logo AquaticData"
+         class="logo">
+    <div class="header-text">
+      <h1>AquaticData</h1>
+      <p class="tagline">Votre partenaire pour le suivi de la qualité des cours d'eau</p>
+    </div>
+  </div>
+</header>
+
+<style>
+.site-header {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
+  padding: 25px 40px;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* pour mobile */
+}
+
+.logo {
+  height: 80px;
+  width: auto;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 2.2em;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.tagline {
+  margin: 4px 0 0;
+  color: #1e40af;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+        <nav class="nav-buttons">
+           <button class="nav-btn active" onclick="showSection('accueil', event)">Accueil</button>
+<button class="nav-btn" onclick="showSection('structuration', event)">Structuration des Données</button>
+<button class="nav-btn" onclick="showSection('applications', event)">Applications Interactives</button>
+<button class="nav-btn" onclick="showSection('referentiels', event)">Référentiels</button>
+<button class="nav-btn" onclick="showSection('contact', event)">Contact</button>
+        </nav>
+
+        <!-- Section Accueil -->
+<div id="accueil" class="content-section active">
+  <h2>Bienvenue chez AquaticData</h2>
+
+  <!-- Image d'illustration principale -->
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/guyane1.jpg"
+         alt="Illustration gauche" class="side-image left">
+
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/logo.png"
+         alt="Logo AquaticData" class="main-logo">
+
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/PSX_20230718_183653.jpg"
+         alt="Illustration droite" class="side-image right">
+  </div>
+
+  <p class="image-caption">Suivi et analyse de la qualité des cours d'eau</p>
+
+<style>
+/* --- Style global --- */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1c1c1c;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f9fbfd;
+}
+
+/* --- Bloc de présentation --- */
+.presentation {
+  max-width: 900px;
+  margin: 60px auto 40px;
+  padding: 25px 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: justify;
+  font-size: 1.05rem;
+}
+
+/* --- Conteneur principal --- */
+.generic {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 100px;
+  flex-wrap: wrap;
+}
+
+/* --- Colonne gauche : 2 images empilées --- */
+.generic-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  flex: 1 1 400px;
+  max-width: 500px;
+}
+
+/* --- Colonne droite : image seule --- */
+.generic-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 400px;
+  max-width: 500px;
+}
+
+/* --- Cartes d'image --- */
+.generic-card {
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.generic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* --- Images --- */
+.side-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .generic {
+    flex-direction: column;
+    align-items: center;
+  }
+  .generic-left, .generic-right {
+    max-width: 90%;
+  }
+}
+</style>
+
+<!-- --- CONTENU HTML --- -->
+<div class="presentation">
+  <p>
+    <strong>AquaticData</strong> est une société spécialisée dans le développement d'outils ergonomiques et intuitifs dédiés au suivi et à l'analyse de la qualité de l'eau et des milieux aquatiques.
+    Notre expertise couvre aussi bien l'ensemble des référentiels réglementaires français et européens sur la qualité des milieux aquatiques que des thématiques liées aux suivis de la faune aquatique.
+  </p>
+</div>
+
+<div class="generic">
+  <!-- Colonne gauche : deux images empilées -->
+  <div class="generic-left">
+    <div class="generic-card">
+      <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/thon.jpg"
+           alt="Suivi des thons - AquaticData" class="side-image" loading="lazy">
+    </div>
+
+    <div class="generic-card">
+      <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/fmps_1.png"
+           alt="Projet FMPS - AquaticData" class="side-image" loading="lazy">
+    </div>
+  </div>
+
+  <!-- Colonne droite : une image seule -->
+  <div class="generic-right">
+    <div class="generic-card">
+      <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/Qualieau_guyane.png"
+           alt="Qualité des eaux de Guyane - AquaticData" class="side-image" loading="lazy">
+    </div>
+  </div>
+</div>
+   
+   
+   
+   
+  <div class="features">
+    <div class="feature-card">
+      <h4>🎯 Expertise Technique</h4>
+      <p>Maîtrise des référentiels réglementaires(DCE, AEP, ARS...)
+      Connaissance dans les suivis faunistiques pélagiques (thon rouge en méditerranée)
+      Suivi de l'état des milieux tropicaux et tropicaux insulaires </p>
+    </div>
+    <div class="feature-card">
+      <h4>💡 Innovation</h4>
+      <p>Solutions ergonomiques adaptées à vos besoins : terminé le traitement des données sur excel, aujourd'hui vous lancé une application et vous apporté votre expertise sur des graphiques et cartes prêtes en 3 clics
+      </p>
+    </div>
+    <div class="feature-card">
+      <h4>📊 Performance</h4>
+      <p>Outils intuitifs pour une analyse efficace :
+      visualisation de carte interactives, graphiques thématiques, construction de rapport pdf et html</p>
+    </div>
+  </div>
+</div>
+
+<!-- Styles -->
+<style>
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px; /* espace entre les images */
+  margin: 20px 0;
+}
+
+.image-container img {
+  height: 500px;
+  object-fit: contain;
+}
+
+.main-logo {
+  height: 200px;
+}
+
+.side-image {
+  opacity: 0.9;
+  transition: transform 0.3s ease;
+}
+
+.side-image:hover {
+  transform: scale(1.05);
+}
+
+.image-caption {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 25px;
+  color: #444;
+}
+</style>
+
+<div id="structuration" class="content-section">
+  <h2>Structuration des Bases de Données</h2>
+
+  <!-- Image de schéma de base de données -->
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/pgadmin4.jpeg"
+         alt="Interface AquaticData" class="main-schema" loading="lazy">
+    <p class="image-caption">Que vos besoins soient locaux ou à but de diffusion pour le plus grand nombre, Aquatic Data utilise les meilleurs solutions en terme de base de données afin de vous garantir : fiabilité, autonomie, traçabilité des données.</p>
+  </div>
+   <div class="image-container">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/base_données.png"
+         alt="Interface AquaticData" class="main-schema" loading="lazy">
+    <p class="image-caption">Relier les données à la connaissance :
+    Nous connectons vos ordinateurs avec nos logiciels, ce qui vous permet de naviguer serreinement dans vos données de manière simple et efficace à partir de nos solutions graphiques et interactives. 
+    </p>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/tableau_commande.png"
+         alt="Interface AquaticData" class="main-schema" loading="lazy">
+    <p class="image-caption">Des commandes métiers simples et efficaces :
+    Parce que les milieux aquatiques nécesssites à chaque fois un regard différent, selon les usages et selon l'expertise à apporter, les commandes utilisateurs de nos outils sont faites sur-mesure.
+    </p>
+  </div>
+  
+  <h3>Organisation et Optimisation</h3>
+     <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/workflow.png"
+         alt="Interface AquaticData" class="main-schema" loading="lazy">
+  <p>
+    Nous concevons et structurons vos données afin de les rendre performantes et exploitables, spécifiquement adaptées aux
+    données environnementales présentant des grands volumes. Notre approche garantit l'intégrité, la traçabilité et l'accessibilité
+    de vos données.
+  </p>
+
+  <h3>Nos Services</h3>
+  <div class="features">
+    <div class="feature-card">
+      <h4>Modélisation</h4>
+      <p>Conception de schémas relationnels adaptés aux données aquatiques</p>
+    </div>
+    <div class="feature-card">
+      <h4>Migration</h4>
+      <p>Transfert sécurisé de vos données existantes</p>
+    </div>
+    <div class="feature-card">
+      <h4>Normalisation</h4>
+      <p>Harmonisation selon les standards réglementaires</p>
+    </div>
+    <div class="feature-card">
+      <h4>Sécurisation</h4>
+      <p>Protection et sauvegarde de vos données critiques</p>
+    </div>
+  </div>
+
+  <h3>Avantages</h3>
+  <p>✓ Centralisation de l'ensemble des données de qualité des eaux</p>
+  <p>✓ Compatibilité avec les systèmes d'information existants</p>
+  <p>✓ Exploitation facilitée pour l'analyse et le reporting</p>
+  <p>✓ Conformité aux exigences réglementaires</p>
+
+  <!-- Galerie d'images exemples (3 images) -->
+  <div class="image-grid">
+    <figure class="grid-item">
+      <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/dce_charente.png"
+           alt="Suivi DCE Charente" loading="lazy">
+      <figcaption>Suivi DCE Charente</figcaption>
+    </figure>
+
+    <figure class="grid-item">
+      <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/nitrates_charente.png"
+           alt="Suivi nitrates Charente" loading="lazy">
+      <figcaption>Suivi des polluants amont-aval</figcaption>
+    </figure>
+
+    <figure class="grid-item">
+      <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/tableau_sage.png"
+           alt="Tableaux de bord d'accès aux ressources (sites internet thématiques, Ressources internes, Applications interactives" loading="lazy">
+      <figcaption> Tableaux de commandes interactif</figcaption>
+    </figure>
+    <figure class="grid-item">
+      <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/ars_2.png"
+           alt="Consultation des sites liés à la baignade" loading="lazy">
+      <figcaption>ARS Baignade</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- Styles à placer une seule fois (en bas de page ou dans ton <head>) -->
+<style>
+  /* Image principale */
+  .image-container {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .image-container .main-schema {
+    width: 560px;       /* contraint la largeur */
+    max-width: 100%;
+    height: auto;       /* garde les proportions */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .image-caption {
+    text-align: center;
+    color: #555;
+    font-style: italic;
+    margin-top: 10px;
+  }
+
+  /* Grille responsive 3 → 2 → 1 colonnes */
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 22px;
+  }
+  @media (max-width: 1024px) {
+    .image-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .image-grid { grid-template-columns: 1fr; }
+  }
+
+  .grid-item {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .grid-item img {
+    width: 100%;
+    height: 220px;          /* hauteur homogène */
+    object-fit: cover;      /* rogne proprement si ratio différent */
+    display: block;
+    transition: transform 0.25s ease;
+  }
+  .grid-item:hover img {
+    transform: scale(1.02);
+  }
+  .grid-item figcaption {
+    padding: 10px 12px;
+    font-size: 0.93rem;
+    color: #444;
+    text-align: center;
+  }
+</style>
+
+     <div id="applications" class="content-section">
+  <h2>Construction d'Applications Interactives</h2>
+
+  <!-- Captures d'écran d'applications -->
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/fmps_1.png" alt="Application FMPS" loading="lazy">
+    <p class="image-caption">Interface utilisateur intuitive et ergonomique</p>
+  </div>
+
+  <h3>Solutions Sur Mesure</h3>
+  <p>Nous développons des applications web interactives qui transforment vos données brutes en informations exploitables. Nos interfaces intuitives permettent une navigation fluide et une analyse approfondie de la qualité de vos cours d'eau.</p>
+
+  <h3>Fonctionnalités Clés</h3>
+  <div class="features">
+    <div class="feature-card">
+      <h4>📈 Visualisation</h4>
+      <p>Graphiques dynamiques et tableaux de bord personnalisables</p>
+    </div>
+    <div class="feature-card">
+      <h4>🗺️ Cartographie</h4>
+      <p>Représentation géographique des stations et résultats</p>
+    </div>
+    <div class="feature-card">
+      <h4>🔍 Analyse</h4>
+      <p>Outils d'analyse statistique et de calcul d'indices</p>
+    </div>
+<div class="feature-card">
+  <h4>📑 Export</h4>
+  <p>Génération automatique de rapports et synthèses</p>
+<a href="https://aquaticdata.github.io/Tableau_commande_AquaticData/rapport_aep.html"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="download-btn">
+   🌐 Consulter le rapport
+</a>
+</div>
+<style>
+.download-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+.download-btn:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+}
+</style>
+
+
+
+
+
+
+
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <h3>Interface Utilisateur</h3>
+  <p>Nos applications sont conçues avec une approche centrée utilisateur : ergonomie soignée, temps de chargement optimisés, accessibilité multi-supports (ordinateur, tablette, smartphone) et formation intuitive.</p>
+
+  <h3>Technologies Modernes</h3>
+  <p>Nous utilisons les dernières technologies web pour garantir des applications performantes, réactives et évolutives, capables de gérer de grands volumes de données tout en offrant une expérience utilisateur fluide.</p>
+
+  <!-- Exemples de fonctionnalités -->
+  <div class="image-grid">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/dce_charente.png" alt="Tableau de bord DCE" loading="lazy">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/guyane_biomasse.png" alt="Cartographie Guyane" loading="lazy">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/nitrates_charente.png" alt="Graphiques nitrates" loading="lazy">
+  </div> <!-- ✅ on ferme bien .image-grid ici -->
+
+  <!-- === Lanceur d'applications avec onglets (icônes + hover marqué) === -->
+<div class="app-launcher" aria-label="Lanceur d'applications Shiny">
+  <div class="app-tabs" role="tablist" aria-label="Applications Shiny">
+    <!-- Qualieau Guyane -->
+    <button class="app-tab active" role="tab" aria-selected="true"
+            data-target="tab-guyane" aria-controls="tab-guyane">
+      <span class="tab-icon" aria-hidden="true">
+        <!-- Pin + goutte -->
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z"></path>
+          <path d="M12 10.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+        </svg>
+      </span>
+      Qualieau Guyane
+    </button>
+
+    <!-- TAG FMPS -->
+    <button class="app-tab" role="tab" aria-selected="false"
+            data-target="tab-tagfmps" aria-controls="tab-tagfmps">
+      <span class="tab-icon" aria-hidden="true">
+        <!-- Poisson + trajet -->
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12s3-4 9-4c3.5 0 6 2 9 4-3 2-5.5 4-9 4-6 0-9-4-9-4z"></path>
+          <path d="M7 12h0"></path>
+          <path d="M2 7c3 1.5 4.5 3.5 4.5 5s-1.5 3.5-4.5 5"></path>
+        </svg>
+      </span>
+      TAG FMPS
+    </button>
+
+    <!-- Déploy ARS -->
+    <button class="app-tab" role="tab" aria-selected="false"
+            data-target="tab-deployars" aria-controls="tab-deployars">
+      <span class="tab-icon" aria-hidden="true">
+        <!-- Bouclier + check -->
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"></path>
+          <path d="M9 12l2 2 4-4"></path>
+        </svg>
+      </span>
+      Déploy ARS
+    </button>
+  </div>
+
+  <div class="app-panels">
+    <!-- Qualieau Guyane -->
+    <section id="tab-guyane" class="app-panel active" role="tabpanel">
+      <h4>Qualieau Guyane</h4>
+      <p>Suivi qualité des milieux aquatiques en Guyane (cartes, stats, rapports).</p>
+      <div class="app-actions">
+        <a class="btn primary" target="_blank" rel="noopener noreferrer"
+           href="https://aquaticdata.shinyapps.io/Qualieau_guyane/">Lancer l’application</a>
+      </div>
+    </section>
+
+    <!-- TAG FMPS -->
+    <section id="tab-tagfmps" class="app-panel" role="tabpanel" hidden>
+      <h4>TAG FMPS</h4>
+      <p>Suivi des trajectoires et profils des poissons taggés par la Fédération de pêche de Monaco.</p>
+      <div class="app-actions">
+        <a class="btn primary" target="_blank" rel="noopener noreferrer"
+           href="https://aquaticdata.shinyapps.io/TAG_FMPS/">Lancer l’application</a>
+      </div>
+    </section>
+
+    <!-- Déploy ARS -->
+    <section id="tab-deployars" class="app-panel" role="tabpanel" hidden>
+      <h4>Déploy ARS</h4>
+      <p>Présentation des sites de baignade ARS : qualité de l'eau de baignade.</p>
+      <div class="app-actions">
+        <a class="btn primary" target="_blank" rel="noopener noreferrer"
+           href="https://aquaticdata.shinyapps.io/deploy_ars/">Lancer l’application</a>
+      </div>
+    </section>
+  </div>
+  <!-- Bouton e-mail -->
+  <div class="app-mail-cta">
+    <a class="btn mail"
+       href="mailto:?subject=Demande%20de%20test%20sur%20mon%20territoire&body=Bonjour%20AquaticData%2C%0A%0AJe%20souhaite%20tester%20vos%20applications%20sur%20mon%20territoire%20(Qualieau%20Guyane%2C%20TAG%20FMPS%2C%20D%C3%A9ploy%20ARS).%0A%0AInformations%20:%0A-%20Organisme%20:%20%0A-%20P%C3%A9rim%C3%A8tre%20(g%C3%A9o)%20:%20%0A-%20Donn%C3%A9es%20disponibles%20:%20%0A-%20Objectifs%20:%20%0A%0AMerci%20!">
+      📧 Demander un test sur mon territoire
+    </a>
+  </div>
+
+
+<style>
+  .app-launcher { margin-top: 28px; }
+  .app-tabs {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    border-bottom: 1px solid #e6e6e6; padding-bottom: 10px;
+  }
+  .app-tab {
+    appearance: none; border: 1px solid #e5e7eb; background: #f8fafc;
+    padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 8px;
+    color: #0f172a; transition: all .18s ease;
+  }
+  .app-tab .tab-icon { display: inline-flex; }
+  .app-tab svg { display: block; }
+
+  /* Hover + active plus marqués */
+  .app-tab:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.18);
+    background: linear-gradient(180deg, #eef6ff 0%, #eaf2ff 100%);
+    border-color: #cfe1ff;
+  }
+  .app-tab.active {
+    background: linear-gradient(180deg, #dbeafe 0%, #e0f2fe 100%);
+    border-color: #93c5fd;
+    color: #0b3a7e;
+  }
+  .app-tab:focus-visible {
+    outline: 3px solid #60a5fa; outline-offset: 2px;
+  }
+
+  .app-panels { padding-top: 16px; }
+  .app-panel[hidden] { display: none; }
+  .app-panel h4 { margin: 0 0 6px; }
+
+  .app-actions { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; text-decoration: none; padding: 10px 14px;
+    border-radius: 10px; font-weight: 600; border: 1px solid transparent;
+  }
+  .btn.primary { background: #2563eb; color: #fff; }
+  .btn.primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+  .btn.mail { background: #0ea5e9; color: #fff; }
+  .app-mail-cta { margin-top: 18px; }
+
+  /* Mode sombre (optionnel si tu as un thème dark) */
+  @media (prefers-color-scheme: dark) {
+    .app-tab { background: #0b1220; border-color: #1f2937; color: #e5e7eb; }
+    .app-tab.active { background: linear-gradient(180deg, #0f1c30 0%, #0e2132 100%); border-color: #1d4ed8; color: #dbeafe; }
+  }
+</style>
+
+<script>
+/* Click + clavier (← → + Entrée/Espace) */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.app-tab');
+  if (!btn) return;
+  activateTab(btn);
+});
+document.addEventListener('keydown', (e) => {
+  const current = document.querySelector('.app-tab.active');
+  if (!current) return;
+  const tabs = [...current.parentElement.querySelectorAll('.app-tab')];
+  const i = tabs.indexOf(current);
+  if (e.key === 'ArrowRight') {
+    e.preventDefault(); const next = tabs[(i + 1) % tabs.length];
+    next.focus(); activateTab(next);
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault(); const prev = tabs[(i - 1 + tabs.length) % tabs.length];
+    prev.focus(); activateTab(prev);
+  } else if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault(); activateTab(current);
+  }
+});
+function activateTab(btn){
+  const root = btn.closest('.app-launcher');
+  const tabs = root.querySelectorAll('.app-tab');
+  const panels = root.querySelectorAll('.app-panel');
+  tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); t.setAttribute('tabindex','-1'); });
+  panels.forEach(p => { p.hidden = true; p.classList.remove('active'); });
+  btn.classList.add('active'); btn.setAttribute('aria-selected','true'); btn.setAttribute('tabindex','0');
+  const id = btn.dataset.target;
+  const panel = root.querySelector('#' + id);
+  if (panel) { panel.hidden = false; panel.classList.add('active'); }
+}
+</script>
+
+</div>
+        
+        
+        </div>
+<div id="referentiels" class="content-section">
+  <h2>Référentiels et Normes</h2>
+
+  <!-- Image d'en-tête -->
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/dce_charente.png"
+         alt="Référentiels réglementaires"
+         loading="lazy"
+         style="border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.1);">
+    <p class="image-caption">Conformité avec l'ensemble des référentiels français et européens</p>
+  </div>
+
+  <h3>Expertise Réglementaire</h3>
+  <p>Aquatic Data maîtrise l'ensemble des référentiels applicables à la qualité des eaux en France et dans les DROM-COM. Nos outils intègrent nativement les exigences de chaque cadre réglementaire.</p>
+
+  <div class="referentials">
+    <a class="referential-tag" href="#ref-dce">DCE - Directive Cadre sur l'Eau</a>
+    <a class="referential-tag" href="#ref-aep">AEP - Eau Potable</a>
+    <a class="referential-tag" href="#ref-ars">ARS - Baignades</a>
+    <a class="referential-tag" href="#ref-conchy">Zones Conchylicoles</a>
+  </div>
+
+  <!-- === DCE === -->
+  <div class="referential-card" id="ref-dce">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/dce.png"
+         alt="Directive Cadre sur l’Eau"
+         class="ref-img" loading="lazy">
+    <h3>DCE - Directive Cadre sur l'Eau</h3>
+    <p>Évaluation de l'état écologique et chimique des masses d'eau selon les critères européens. Calcul des indices physico-chimiques et chimiques, support pour les réseaux de surveillance RCS, RCO et contrôles opérationnels.</p>
+    <ul class="resource-links">
+      <li>📘 <a href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32000L0060" target="_blank" rel="noopener noreferrer">Texte officiel de la Directive 2000/60/CE</a></li>
+      <li>🌍 <a href="https://www.eaufrance.fr/sites/default/files/2019-05/guide-reee-esc-2019-cycle3.pdf" target="_blank" rel="noopener noreferrer">Guide REEE</a></li>
+      <li>💧 <a href="https://www.eaufrance.fr/" target="_blank" rel="noopener noreferrer">Portail Eau France</a></li>
+    </ul>
+  </div>
+
+  <!-- === AEP === -->
+  <div class="referential-card" id="ref-aep">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/aep.png"
+         alt="Eau potable"
+         class="ref-img" loading="lazy">
+    <h3>AEP - Alimentation en Eau Potable</h3>
+    <p>Suivi de la qualité des eaux brutes et traitées destinées à la consommation humaine. Conformité avec les limites et références de qualité définies par le Code de la Santé Publique.</p>
+    <ul class="resource-links">
+      <li>🏛️ <a href="https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006171391/" target="_blank" rel="noopener noreferrer">Code de la Santé Publique - Chapitre Eau Potable</a></li>
+      <li>💦 <a href="https://www.data.gouv.fr/datasets/resultats-du-controle-sanitaire-de-leau-distribuee-commune-par-commune/" target="_blank" rel="noopener noreferrer">Données publiques - Qualité de l’eau potable</a></li>
+      <li>📑 <a href="https://www.who.int/fr/publications/i/item/9789241549950" target="_blank" rel="noopener noreferrer">Guide OMS - Qualité de l’eau de boisson</a></li>
+    </ul>
+  </div>
+
+  <!-- === ARS === -->
+  <div class="referential-card" id="ref-ars">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/raho.jpg"
+         alt="Eau de baignade"
+         class="ref-img" loading="lazy">
+    <h3>ARS - Eau de Baignade</h3>
+    <p>Suivi sanitaire des eaux de baignade selon la directive européenne 2006/7/CE. Intégration des paramètres microbiologiques à risque (E. coli, entérocoques).</p>
+    <ul class="resource-links">
+      <li>🏖️ <a href="https://baignades.sante.gouv.fr/baignades/home.seam" target="_blank" rel="noopener noreferrer">Carte interactive des eaux de baignade</a></li>
+      <li>📄 <a href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32006L0007" target="_blank" rel="noopener noreferrer">Directive 2006/7/CE</a></li>
+      <li>🧪 <a href="https://www.ars.sante.fr/" target="_blank" rel="noopener noreferrer">Agences Régionales de Santé</a></li>
+    </ul>
+  </div>
+
+  <!-- === Zones Conchylicoles === -->
+  <div class="referential-card" id="ref-conchy">
+    <img src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/conchylico.jpg"
+         alt="Zones conchylicoles"
+         class="ref-img" loading="lazy">
+    <h3>Zones Conchylicoles</h3>
+    <p>Production de cartes interactives pour les zones de production conchylicole. Suivi des paramètres microbiologiques (E. coli) et chimiques spécifiques aux milieux côtiers.</p>
+    <ul class="resource-links">
+      <li>🦪 <a href="https://www.ifremer.fr/fr/peche-aquaculture" target="_blank" rel="noopener noreferrer">IFREMER - Pêche & aquaculture</a></li>
+      <li>🌐 <a href="https://envlit.ifremer.fr/" target="_blank" rel="noopener noreferrer">IFREMER - Portail Envlit IFREMER</a></li>
+      <li>📘 <a href="https://sextant.ifremer.fr/" target="_blank" rel="noopener noreferrer">IFREMER - Plateforme sextant</a></li>
+    </ul>
+  </div>
+</div>
+
+<style>
+/* Tags cliquables */
+.referentials {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0 25px;
+}
+.referential-tag {
+  display: inline-block; padding: 8px 12px; border-radius: 999px;
+  background:#eef2ff; color:#3730a3; text-decoration:none; font-weight:600; font-size:14px;
+  transition: .2s ease; box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.referential-tag:hover { background:#e0e7ff; transform: translateY(-1px); }
+
+/* Cartes */
+.referential-card {
+  background: #f9fafc; border-radius: 15px; padding: 25px; margin: 25px 0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08); transition: all 0.3s ease;
+}
+.referential-card:hover { transform: translateY(-5px); box-shadow: 0 10px 35px rgba(0,0,0,0.12); }
+
+/* Image carte */
+.ref-img {
+  width: 120px; border-radius: 10px; margin-left: 20px;
+  float: right;
+}
+
+/* Liens ressources */
+.resource-links { margin-top: 15px; list-style: none; padding: 0; }
+.resource-links li { margin-bottom: 8px; }
+.resource-links a { color: #1d4ed8; text-decoration: none; font-weight: 500; }
+.resource-links a:hover { text-decoration: underline; color: #0f172a; }
+
+/* Responsive : éviter le float sur petit écran */
+@media (max-width: 640px) {
+  .ref-img { float: none; display: block; margin: 0 auto 12px; width: 160px; }
+}
+</style>
+
+
+
+
+        <div id="contact" class="content-section">
+            <h2>Contactez-nous</h2>
+            
+            <h3>AquaticData</h3>
+            <p>Vous avez un projet de structuration de données ou de développement d'application pour le suivi de la qualité des cours d'eau ? Nous sommes à votre écoute pour étudier vos besoins et vous proposer une solution adaptée.</p>
+            
+            <div style="margin-top: 40px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; text-align: center;">
+                <h4 style="font-size: 1.5em; margin-bottom: 20px;">Parlons de votre projet</h4>
+                <p style="font-size: 1.2em; margin-bottom: 10px;">📧 contact.aquaticdata@gmail.com</p>
+                <p style="font-size: 1.2em;">📱 +33 (0)7 52 05 46 96</p>
+                <p style="font-size: 1.2em;">Siret : 934 640 418 00018</p>
+            </div>
+            
+            <h3 style="margin-top: 40px;">Notre Engagement</h3>
+            <p>✓ Écoute et compréhension de vos besoins spécifiques</p>
+            <p>✓ Solutions sur mesure et évolutives</p>
+            <p>✓ Accompagnement de la conception à la mise en production</p>
+            <p>✓ Formation et support technique</p>
+            <p>✓ Maintenance et amélioration continue</p>
+        </div>
+         <!-- ===== Qui suis-je (dans #contact) ===== -->
+<section id="about" aria-label="Qui suis-je" style="margin-top:40px;">
+  <h2>Qui suis-je</h2>
+
+  <div class="about-me">
+    <!-- Photo à gauche -->
+    <div class="about-photo">
+      <img
+        src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/R%C3%A9my.jpg"
+        alt="Photo de Rémy Guerdin"
+        loading="lazy">
+    </div>
+
+    <!-- Texte à droite -->
+    <div class="about-text">
+      <h3>Rémy Guerdin — AquaticData</h3>
+      <p>
+        Passionné par l’eau et les milieux aquatiques depuis toujours, j’en ai fait mon métier.
+J’ai commencé mon parcours à l’Office de l’Eau de La Réunion, puis à celui de Guyane, où j’ai découvert la richesse — mais aussi les limites — des plateformes de suivi environnemental existantes.
+Constatant leur manque d’ergonomie et de profondeur métier, je me suis lancé un défi : créer ma première application dédiée à la qualité de l’eau.
+Les retours positifs et les encouragements reçus m’ont conforté dans cette voie : aujourd’hui, je suis codeur… les pieds dans l’eau.
+      </p>
+
+      <div class="cv-actions">
+        <a class="btn primary" target="_blank" rel="noopener"
+           href="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/CV%20R%C3%A9my%20GUERDIN%20Ing%C3%A9nieur%20Milieux%20aquatiques.pdf"
+           download>
+          📄 Télécharger mon CV (PDF)
+        </a>
+        <button class="btn ghost" type="button" id="toggle-cv">👁️ Aperçu en ligne</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aperçu CV repliable en dessous -->
+  <div id="cv-viewer" class="cv-viewer" hidden>
+    <iframe
+      src="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/CV%20R%C3%A9my%20GUERDIN%20Ing%C3%A9nieur%20Milieux%20aquatiques.pdf"
+      title="CV de Rémy Guerdin"
+      loading="lazy">
+    </iframe>
+    <p class="cv-note">
+      Si l’aperçu ne s’affiche pas, <a target="_blank" rel="noopener"
+      href="https://raw.githubusercontent.com/aquaticdata/Tableau_commande_AquaticData/main/CV%20R%C3%A9my%20GUERDIN%20Ing%C3%A9nieur%20Milieux%20aquatiques.pdf">ouvrez le CV dans un nouvel onglet</a>.
+    </p>
+  </div>
+</section>
+
+<!-- Styles (mets-les après tes styles existants pour qu'ils priment) -->
+<style>
+  .about-me{
+    display:flex;
+    align-items:flex-start;
+    gap:24px;
+    margin-top:10px;
+    flex-wrap:wrap; /* pour passer en colonne sur petits écrans */
+  }
+  .about-photo img{
+    width:300px;
+    height:500px;
+    object-fit:cover;
+    border-radius:30px;
+    box-shadow:0 6px 18px rgba(0,0,0,.12);
+  }
+  .about-text{
+    flex:1 1 340px; /* prend la place restante, min ~340px */
+    min-width:280px;
+  }
+  .about-text h3{ margin:0 0 6px; }
+  .cv-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+
+  /* Boutons (réutilise ton style si tu l'as déjà) */
+  .btn{ display:inline-block; text-decoration:none; padding:10px 14px; border-radius:10px; font-weight:600; border:1px solid transparent; cursor:pointer; }
+  .btn.primary{ background:#2563eb; color:#fff; }
+  .btn.primary:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+  .btn.ghost{ background:#fff; border-color:#e5e7eb; color:#111; }
+  .btn.ghost:hover{ background:#f8fafc; }
+
+  /* Aperçu CV */
+  .cv-viewer{ margin-top:16px; }
+  .cv-viewer iframe{
+    width:100%;
+    height:560px;
+    border:none;
+    border-radius:12px;
+    box-shadow:0 8px 24px rgba(0,0,0,.12);
+    background:#fff;
+  }
+  .cv-note{ text-align:center; margin-top:8px; opacity:.8; }
+
+  /* Responsive : photo plus petite sur mobile */
+  @media (max-width: 700px){
+    .about-photo img{
+      width: clamp(220px, 60vw, 300px);
+      height: clamp(320px, 80vw, 500px);
+    }
+    .cv-viewer iframe{ height:420px; }
+  }
+</style>
+
+<!-- Script toggle CV -->
+<script>
+  (function(){
+    const btn = document.getElementById('toggle-cv');
+    const viewer = document.getElementById('cv-viewer');
+    if (!btn || !viewer) return;
+    btn.addEventListener('click', () => {
+      const open = !viewer.hasAttribute('hidden');
+      if (open) {
+        viewer.setAttribute('hidden', '');
+        btn.textContent = '👁️ Aperçu en ligne';
+      } else {
+        viewer.removeAttribute('hidden');
+        btn.textContent = '➖ Masquer l’aperçu';
+      }
+    });
+  })();
+</script>
+        
+        
+        
+        <footer>
+            <p>&copy; 2025 Aquatic Data - Tous droits réservés</p>
+            <p style="margin-top: 10px; opacity: 0.9;">Expertise en qualité de l'eau et des milieux aquatiques et développement d'outils d'analyse</p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Masquer toutes les sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Désactiver tous les boutons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Afficher la section sélectionnée
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activer le bouton correspondant
+            event.target.classList.add('active');
+            
+            // Scroll vers le haut
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+
+</html>
